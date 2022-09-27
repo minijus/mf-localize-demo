@@ -1,0 +1,110 @@
+{
+  "name": "mf-host",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/mf-host/src",
+  "prefix": "mf-localize-demo",
+  "i18n": {
+    "sourceLocale": "en-US",
+    "locales": {
+      "en": "apps/mf-host/i18n/messages.en.xlf",
+      "lt": "apps/mf-host/i18n/messages.lt.xlf"
+    }
+  },
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:webpack-browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/mf-host",
+        "index": "apps/mf-host/src/index.html",
+        "main": "apps/mf-host/src/main.ts",
+        "polyfills": "apps/mf-host/src/polyfills.ts",
+        "tsConfig": "apps/mf-host/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/mf-host/src/favicon.ico", "apps/mf-host/src/assets"],
+        "styles": ["apps/mf-host/src/styles.scss"],
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "apps/mf-host/webpack.config.js"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/mf-host/src/environments/environment.ts",
+              "with": "apps/mf-host/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all",
+          "customWebpackConfig": {
+            "path": "apps/mf-host/webpack.prod.config.js"
+          },
+          "localize": ["en", "lt"],
+          "extractLicenses": false
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@nrwl/angular:module-federation-dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "mf-host:build:production"
+        },
+        "development": {
+          "browserTarget": "mf-host:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4200,
+        "publicHost": "http://localhost:4200"
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "mf-host:build",
+        "outputPath": "apps/mf-host/i18n"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/mf-host/**/*.ts", "apps/mf-host/**/*.html"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/mf-host"],
+      "options": {
+        "jestConfig": "apps/mf-host/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["remotes-mf-remote", "remotes-mf-remote2"]
+}

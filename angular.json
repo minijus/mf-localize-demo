@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+  "version": 2,
+  "projects": {
+    "mf-host": "apps/mf-host",
+    "remotes-mf-remote": "apps/remotes/mf-remote",
+    "remotes-mf-remote2": "apps/remotes/mf-remote2"
+  }
+}
